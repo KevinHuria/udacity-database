@@ -15,11 +15,14 @@ cursor.execute('''
 
 cursor.execute('INSERT INTO table3(id, completed) VALUES(%s,%s);',(1,True))
 cursor.execute('INSERT INTO table3(id, completed) VALUES(%s,%s);', (0, False))
-cursor.execute('SELECT * FROM table3')
+cursor.execute('SELECT * FROM table3;')
 result = cursor.fetchmany(1)
 print(result)
 result2=cursor.fetchone()
 print(result2)
+cursor.execute('SELECT * FROM person;')
+result3= cursor.fetchall()
+print(result3)
 #commit all the transactions
 connection.commit()
 # manually close the connection
