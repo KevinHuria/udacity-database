@@ -18,5 +18,8 @@ def index():
     return render_template('index.html',books=books)
 
 
+@app.route('/create/', methods=('GET', 'POST'))
+def create():
+    return render_template('create.html')
 
 
