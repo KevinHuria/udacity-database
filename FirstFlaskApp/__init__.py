@@ -37,9 +37,9 @@ cursor.execute('INSERT INTO books(title, author, category, review)'
                 'Amazing Book!')
 )
 #select all from books
-cursor.execute('SELECT * FROM books;')
-result= cursor.fetchall()
-print(result)
+#cursor.execute('SELECT * FROM books;')
+#result= cursor.fetchall()
+#print(result)
 # commit all the transactions
 
 connection.commit()
