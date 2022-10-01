@@ -1,29 +1,47 @@
-#working with psycopg2
+# working with psycopg2
 import psycopg2
 # Establish database connection and create a cursor object that will be used to execute SQL commands
-connection =psycopg2.connect(host="localhost", database= "test", port ="5432", user ="postgres", password="Empire*2")
+connection = psycopg2.connect(
+    host="localhost", database="test", port="5432", user="postgres", password="Empire*2")
 
+# Open a cursor to perform database operations
 cursor = connection.cursor()
 
-cursor.execute('DROP TABLE IF EXISTS table3;')
+# Execute a command: this creates a new table
+cursor.execute('DROP TABLE IF EXISTS books;')
 cursor.execute('''
-    CREATE TABLE table3(
-      id INTEGER PRIMARY KEY,
-      completed BOOLEAN NOT NULL DEFAULT False
+    CREATE TABLE books(
+      id serial PRIMARY KEY,
+      title VARCHAR(120) NOT NULL,
+      author varchar(50)NOT NULL,
+      category varchar(200) not null,
+      review varchar(200) not null,
+      date_added date DEFAULT CURRENT_TIMESTAMP
     );
 ''')
 
-cursor.execute('INSERT INTO table3(id, completed) VALUES(%s,%s);',(1,True))
-cursor.execute('INSERT INTO table3(id, completed) VALUES(%s,%s);', (0, False))
-cursor.execute('SELECT * FROM table3;')
-result = cursor.fetchmany(1)
+# INSERT DATA INTO BOOKS TABLE
+cursor.execute('INSERT INTO books(title, author, category, review)'
+      'VALUES(%s, %s, %s, %s)',
+      ('Modern Bushido: Living a Life of Excellence',
+      'Bohdi Sanders, David Nelson',
+      'Sports, Hobbies & Games',
+      'Great book!Enjoyed it.')
+)
+
+cursor.execute('INSERT INTO books(title, author, category, review)'
+               'VALUES(%s, %s, %s, %s)',
+               ('Beautiful Disaster: A Novel',
+               'Jamie McGuire',
+                'Fiction - Womens Fiction',
+                'Amazing Book!')
+)
+#select all from books
+cursor.execute('SELECT * FROM books;')
+result= cursor.fetchall()
 print(result)
-result2=cursor.fetchone()
-print(result2)
-cursor.execute('SELECT * FROM person;')
-result3= cursor.fetchall()
-print(result3)
-#commit all the transactions
+# commit all the transactions
+
 connection.commit()
 # manually close the connection
 connection.close()
